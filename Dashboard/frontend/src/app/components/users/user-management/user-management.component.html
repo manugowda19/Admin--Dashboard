@@ -1,0 +1,144 @@
+<div class="user-management-container">
+  <div class="header">
+    <div class="header-left">
+      <h1>User Management</h1>
+      <p class="subtitle">Manage users, roles, and permissions</p>
+    </div>
+    <div class="header-actions">
+      <button mat-raised-button color="primary" (click)="openUserForm()">
+        <mat-icon>add</mat-icon>
+        Add User
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="exportMenu" matTooltip="Export Users">
+        <mat-icon>download</mat-icon>
+      </button>
+      <mat-menu #exportMenu="matMenu">
+        <button mat-menu-item (click)="exportUsers('csv')">
+          <mat-icon>description</mat-icon>
+          <span>Export as CSV</span>
+        </button>
+        <button mat-menu-item (click)="exportUsers('json')">
+          <mat-icon>code</mat-icon>
+          <span>Export as JSON</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+
+  <mat-card class="filters-card">
+    <mat-card-content>
+      <div class="filters">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Search</mat-label>
+          <input matInput [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" placeholder="Search by name or email">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Role</mat-label>
+          <mat-select [(ngModel)]="roleFilter" (selectionChange)="onFilterChange()">
+            <mat-option value="">All Roles</mat-option>
+            <mat-option *ngFor="let role of roles" [value]="role">
+              {{ role }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select [(ngModel)]="statusFilter" (selectionChange)="onFilterChange()">
+            <mat-option value="">All Status</mat-option>
+            <mat-option value="active">Active</mat-option>
+            <mat-option value="inactive">Inactive</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button (click)="onSearch()">Search</button>
+        <button mat-button (click)="clearFilters()">Clear</button>
+      </div>
+
+      <div class="bulk-actions" *ngIf="selectedUsers.length > 0">
+        <span class="selected-count">{{ selectedUsers.length }} selected</span>
+        <button mat-button (click)="bulkActivate()">Activate</button>
+        <button mat-button (click)="bulkDeactivate()">Deactivate</button>
+        <button mat-button (click)="clearSelection()">Clear Selection</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <table mat-table [dataSource]="dataSource" matSort class="users-table">
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="toggleAllSelection($event)" [checked]="isAllSelected()"></mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let user">
+          <mat-checkbox (change)="toggleSelection(user, $event)" [checked]="isSelected(user)"></mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let user">
+          <div class="user-cell">
+            <div class="user-avatar">
+              <mat-icon>account_circle</mat-icon>
+            </div>
+            <div class="user-info">
+              <div class="user-name">{{ user.name }}</div>
+              <div class="user-email">{{ user.email }}</div>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
+        <td mat-cell *matCellDef="let user">
+          <mat-chip [class]="'role-' + user.role">{{ user.role }}</mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="isActive">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let user">
+          <mat-chip [color]="user.isActive ? 'primary' : 'warn'">
+            {{ user.isActive ? 'Active' : 'Inactive' }}
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="lastLogin">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Login</th>
+        <td mat-cell *matCellDef="let user">
+          {{ user.lastLogin ? (user.lastLogin | date:'short') : 'Never' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let user">
+          <button mat-icon-button (click)="viewUserActivity(user)" matTooltip="View Activity">
+            <mat-icon>history</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openUserForm(user)" matTooltip="Edit">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteUser(user)" matTooltip="Delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator
+      [length]="totalUsers"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 25, 50, 100]"
+      (page)="onPageChange($event)">
+    </mat-paginator>
+  </mat-card>
+</div>

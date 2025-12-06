@@ -1,0 +1,268 @@
+.dashboard-wrapper {
+  padding: 20px;
+  background-color: #f5f7fa;
+  min-height: calc(100vh - 64px);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  .header-actions {
+    .download-btn {
+      background: #1976d2;
+      color: white;
+      font-weight: 600;
+      padding: 10px 20px;
+
+      mat-icon {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 140px;
+  gap: 20px;
+
+  // Stat Cards (Row 1)
+  .stat-card {
+    grid-column: span 3;
+    padding: 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    @media (max-width: 1400px) {
+      grid-column: span 6;
+    }
+
+    @media (max-width: 768px) {
+      grid-column: span 12;
+    }
+  }
+
+  // Revenue Card (Row 2)
+  .revenue-card {
+    grid-column: span 8;
+    grid-row: span 2;
+    padding: 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    @media (max-width: 1200px) {
+      grid-column: span 12;
+    }
+
+    .revenue-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px 30px 0;
+
+      h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin: 0 0 8px 0;
+      }
+
+      .revenue-amount {
+        font-size: 32px;
+        font-weight: 700;
+        color: #4caf50;
+      }
+
+      button {
+        color: #4caf50;
+      }
+    }
+
+    .chart-container {
+      height: 250px;
+      padding: 20px 30px 30px;
+    }
+  }
+
+  // Transactions Card (Row 2)
+  .transactions-card {
+    grid-column: span 4;
+    grid-row: span 2;
+    padding: 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+
+    @media (max-width: 1200px) {
+      grid-column: span 12;
+      grid-row: span 1;
+    }
+
+    .transactions-header {
+      padding: 15px;
+      border-bottom: 4px solid #f0f0f0;
+
+      h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin: 0;
+      }
+    }
+
+    .transactions-list {
+      max-height: 400px;
+      overflow-y: auto;
+
+      .transaction-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 4px solid #f0f0f0;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .transaction-info {
+          flex: 1;
+
+          .transaction-id {
+            font-size: 16px;
+            font-weight: 600;
+            color: #4caf50;
+            margin-bottom: 4px;
+          }
+
+          .transaction-user {
+            font-size: 14px;
+            color: #757575;
+          }
+        }
+
+        .transaction-date {
+          font-size: 14px;
+          color: #757575;
+          margin: 0 16px;
+        }
+
+        .transaction-cost {
+          background-color: #4caf50;
+          color: white;
+          padding: 5px 10px;
+          border-radius: 4px;
+          font-weight: 600;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  // Campaign Card (Row 3)
+  .campaign-card {
+    grid-column: span 4;
+    grid-row: span 2;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    @media (max-width: 1200px) {
+      grid-column: span 6;
+    }
+
+    @media (max-width: 768px) {
+      grid-column: span 12;
+    }
+
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0 0 25px 0;
+    }
+
+    .campaign-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .campaign-stats {
+        margin-top: 15px;
+        text-align: center;
+
+        .campaign-revenue {
+          font-size: 18px;
+          font-weight: 600;
+          color: #4caf50;
+          margin-bottom: 8px;
+        }
+
+        .campaign-note {
+          font-size: 14px;
+          color: #757575;
+        }
+      }
+    }
+  }
+
+  // Sales Card (Row 3)
+  .sales-card {
+    grid-column: span 4;
+    grid-row: span 2;
+    padding: 30px 30px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    @media (max-width: 1200px) {
+      grid-column: span 6;
+    }
+
+    @media (max-width: 768px) {
+      grid-column: span 12;
+    }
+
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0 0 20px 0;
+    }
+
+    .chart-container {
+      height: 250px;
+      margin-top: -20px;
+    }
+  }
+
+  // Geography Card (Row 3)
+  .geography-card {
+    grid-column: span 4;
+    grid-row: span 2;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    @media (max-width: 1200px) {
+      grid-column: span 12;
+      grid-row: span 1;
+    }
+
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0 0 15px 0;
+    }
+
+    .geography-chart {
+      height: 200px;
+    }
+  }
+}

@@ -1,0 +1,161 @@
+<div class="app-wrapper">
+  <div class="app-container" *ngIf="isAuthenticated">
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav #sidenav mode="side" opened class="sidenav">
+        <!-- Header with Title -->
+        <div class="sidenav-header">
+          <div class="header-top">
+            <h2 class="app-title">ADMINIS</h2>
+          </div>
+        </div>
+
+        <!-- User Profile Section -->
+        <div class="user-profile-section" *ngIf="currentUser">
+          <div class="profile-picture">
+            <img [src]="currentUser.avatar || 'https://ui-avatars.com/api/?name=' + currentUser.name + '&background=3F51B5&color=fff&size=128'" 
+                 [alt]="currentUser.name"
+                 onerror="this.src='https://ui-avatars.com/api/?name=' + this.alt + '&background=3F51B5&color=fff&size=128'">
+          </div>
+          <div class="user-name">{{ currentUser.name || 'User' }}</div>
+          <div class="user-role">{{ getUserRoleDisplay(currentUser.role) }}</div>
+        </div>
+
+        <!-- Navigation Links -->
+        <mat-nav-list class="nav-list">
+          <!-- Main Navigation -->
+          <a mat-list-item routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+            <mat-icon>home</mat-icon>
+            <span>Dashboard</span>
+          </a>
+
+          <!-- Data Category -->
+          <div class="nav-category">Data</div>
+          <a mat-list-item routerLink="/users" routerLinkActive="active" class="nav-item" 
+             *ngIf="currentUser?.role === 'admin' || currentUser?.role === 'superadmin'">
+            <mat-icon>people</mat-icon>
+            <span>Manage Team</span>
+          </a>
+          <a mat-list-item routerLink="/catalog" routerLinkActive="active" class="nav-item">
+            <mat-icon>contact_page</mat-icon>
+            <span>Contacts Information</span>
+          </a>
+          <a mat-list-item routerLink="/invoices" routerLinkActive="active" class="nav-item">
+            <mat-icon>receipt_long</mat-icon>
+            <span>Invoices Balances</span>
+          </a>
+
+          <!-- Pages Category -->
+          <div class="nav-category">Pages</div>
+          <a mat-list-item routerLink="/form" routerLinkActive="active" class="nav-item" 
+             *ngIf="currentUser?.role === 'moderator' || currentUser?.role === 'viewer'">
+            <mat-icon>person</mat-icon>
+            <span>Profile Form</span>
+          </a>
+          <a mat-list-item routerLink="/calendar" routerLinkActive="active" class="nav-item">
+            <mat-icon>calendar_today</mat-icon>
+            <span>Calendar</span>
+          </a>
+          <a mat-list-item routerLink="/faq" routerLinkActive="active" class="nav-item">
+            <mat-icon>help_outline</mat-icon>
+            <span>FAQ Page</span>
+          </a>
+
+          <!-- Charts Category -->
+          <div class="nav-category">Charts</div>
+          <a mat-list-item routerLink="/geography" routerLinkActive="active" class="nav-item">
+            <mat-icon>public</mat-icon>
+            <span>Geography</span>
+          </a>
+
+          <!-- Additional Admin Links -->
+          <div class="nav-category" *ngIf="currentUser?.role === 'admin' || currentUser?.role === 'superadmin'">Admin</div>
+          <a mat-list-item routerLink="/reports" routerLinkActive="active" class="nav-item" 
+             *ngIf="currentUser?.role === 'admin' || currentUser?.role === 'superadmin'">
+            <mat-icon>assessment</mat-icon>
+            <span>Reports</span>
+          </a>
+          <a mat-list-item routerLink="/content" routerLinkActive="active" class="nav-item" 
+             *ngIf="currentUser?.role === 'moderator' || currentUser?.role === 'admin' || currentUser?.role === 'superadmin'">
+            <mat-icon>article</mat-icon>
+            <span>Content</span>
+          </a>
+          <a mat-list-item routerLink="/settings" routerLinkActive="active" class="nav-item" 
+             *ngIf="currentUser?.role === 'superadmin'">
+            <mat-icon>settings</mat-icon>
+            <span>Settings</span>
+          </a>
+          <a mat-list-item routerLink="/logs" routerLinkActive="active" class="nav-item" 
+             *ngIf="currentUser?.role === 'admin' || currentUser?.role === 'superadmin'">
+            <mat-icon>history</mat-icon>
+            <span>Logs</span>
+          </a>
+        </mat-nav-list>
+      </mat-sidenav>
+
+      <mat-sidenav-content>
+        <mat-toolbar color="primary">
+          <button mat-icon-button class="menu-toggle" (click)="sidenav.toggle()" matTooltip="Toggle Sidebar">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <span class="spacer"></span>
+          
+          <!-- Notifications -->
+          <button mat-icon-button [matMenuTriggerFor]="notificationsMenu" class="header-icon-button" matTooltip="Notifications">
+            <mat-icon>notifications</mat-icon>
+            <span class="notification-badge" *ngIf="notificationCount > 0">{{ notificationCount }}</span>
+          </button>
+          <mat-menu #notificationsMenu="matMenu" class="notifications-menu">
+            <div class="notifications-header">
+              <h3>Notifications</h3>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="notifications-list">
+              <div class="notification-item" *ngFor="let notification of notifications">
+                <div class="notification-content">
+                  <div class="notification-title">{{ notification.title }}</div>
+                  <div class="notification-time">{{ notification.time }}</div>
+                </div>
+              </div>
+              <div class="no-notifications" *ngIf="notifications.length === 0">
+                <p>No new notifications</p>
+              </div>
+            </div>
+          </mat-menu>
+
+          <!-- Settings -->
+          <button mat-icon-button routerLink="/settings" class="header-icon-button" 
+                  *ngIf="currentUser?.role === 'superadmin'"
+                  matTooltip="Settings">
+            <mat-icon>settings</mat-icon>
+          </button>
+
+          <!-- User Menu -->
+          <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-menu-button" matTooltip="User Menu">
+            <mat-icon>account_circle</mat-icon>
+          </button>
+          <mat-menu #userMenu="matMenu">
+            <div class="user-info" *ngIf="currentUser">
+              <div class="user-name">{{ currentUser.name }}</div>
+              <div class="user-email">{{ currentUser.email }}</div>
+              <div class="user-role">{{ getUserRoleDisplay(currentUser.role) }}</div>
+            </div>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+        </mat-toolbar>
+
+        <div class="content-wrapper">
+          <router-outlet></router-outlet>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+
+  <div *ngIf="!isAuthenticated">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+

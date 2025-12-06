@@ -1,0 +1,40 @@
+.content-management-container {
+  padding: 24px;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h1 {
+      margin: 0;
+      color: var(--text-primary);
+    }
+  }
+
+  .filters-card {
+    margin-bottom: 24px;
+
+    .filters {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+
+      mat-form-field {
+        flex: 1;
+        min-width: 200px;
+      }
+    }
+  }
+
+  .content-table {
+    width: 100%;
+
+    mat-chip {
+      text-transform: capitalize;
+    }
+  }
+}
+

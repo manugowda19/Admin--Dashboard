@@ -1,0 +1,67 @@
+<div class="search-dialog">
+  <div class="search-header">
+    <h2>Search</h2>
+    <button mat-icon-button (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="search-controls">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search</mat-label>
+      <input matInput [(ngModel)]="searchQuery" (keyup.enter)="onSearch()" placeholder="Search users, content...">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="category-field">
+      <mat-label>Category</mat-label>
+      <mat-select [(ngModel)]="selectedCategory">
+        <mat-option value="all">All</mat-option>
+        <mat-option value="users">Users</mat-option>
+        <mat-option value="content">Content</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="onSearch()" [disabled]="isLoading">
+      <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+      <span *ngIf="!isLoading">Search</span>
+    </button>
+  </div>
+
+  <div class="search-results" *ngIf="searchResults.total > 0 || isLoading">
+    <div class="loading-container" *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+      <p>Searching...</p>
+    </div>
+
+    <div *ngIf="!isLoading">
+      <div class="results-section" *ngIf="searchResults.users.length > 0">
+        <h3>Users ({{ searchResults.users.length }})</h3>
+        <div class="result-item" *ngFor="let user of searchResults.users" (click)="selectUser(user)">
+          <mat-icon>person</mat-icon>
+          <div class="result-info">
+            <div class="result-title">{{ user.name }}</div>
+            <div class="result-subtitle">{{ user.email }} • {{ user.role }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="results-section" *ngIf="searchResults.content.length > 0">
+        <h3>Content ({{ searchResults.content.length }})</h3>
+        <div class="result-item" *ngFor="let content of searchResults.content" (click)="selectContent(content)">
+          <mat-icon>article</mat-icon>
+          <div class="result-info">
+            <div class="result-title">{{ content.title }}</div>
+            <div class="result-subtitle">{{ content.type }} • {{ content.status }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-results" *ngIf="!isLoading && searchQuery && searchResults.total === 0">
+    <mat-icon>search_off</mat-icon>
+    <p>No results found for "{{ searchQuery }}"</p>
+  </div>
+</div>
+

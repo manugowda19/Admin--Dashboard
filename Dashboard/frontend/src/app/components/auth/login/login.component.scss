@@ -1,0 +1,67 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 24px;
+
+  mat-card-header {
+    text-align: center;
+    margin-bottom: 24px;
+
+    mat-card-title {
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--primary-color);
+    }
+
+    mat-card-subtitle {
+      color: var(--text-secondary);
+    }
+  }
+
+  mat-card-content {
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      mat-form-field {
+        width: 100%;
+      }
+
+      button {
+        height: 48px;
+        font-size: 16px;
+        margin-top: 8px;
+
+        mat-spinner {
+          display: inline-block;
+          margin-right: 8px;
+        }
+      }
+    }
+
+    .forgot-password-link {
+      text-align: center;
+      margin-top: 16px;
+
+      a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-size: 14px;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+

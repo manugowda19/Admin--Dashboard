@@ -1,0 +1,125 @@
+<div class="logs-container">
+  <div class="logs-header">
+    <div class="header-left">
+      <h1>Audit Logs & Monitoring</h1>
+      <p class="subtitle">Track all system activities and user actions</p>
+    </div>
+    <div class="header-actions">
+      <button mat-icon-button [matMenuTriggerFor]="exportMenu" matTooltip="Export Logs">
+        <mat-icon>download</mat-icon>
+      </button>
+      <mat-menu #exportMenu="matMenu">
+        <button mat-menu-item (click)="exportLogs('csv')">
+          <mat-icon>description</mat-icon>
+          <span>Export as CSV</span>
+        </button>
+        <button mat-menu-item (click)="exportLogs('json')">
+          <mat-icon>code</mat-icon>
+          <span>Export as JSON</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+
+  <mat-card class="filters-card">
+    <mat-card-content>
+      <div class="filters">
+        <mat-form-field appearance="outline">
+          <mat-label>Resource</mat-label>
+          <mat-select [(ngModel)]="resourceFilter" (selectionChange)="onFilterChange()">
+            <mat-option value="">All Resources</mat-option>
+            <mat-option *ngFor="let resource of resources" [value]="resource">
+              {{ resource }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Action</mat-label>
+          <mat-select [(ngModel)]="actionFilter" (selectionChange)="onFilterChange()">
+            <mat-option value="">All Actions</mat-option>
+            <mat-option *ngFor="let action of actions" [value]="action">
+              {{ action }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-button (click)="clearFilters()">Clear Filters</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <div class="loading-overlay" *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" matSort class="logs-table">
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date & Time</th>
+        <td mat-cell *matCellDef="let log">
+          {{ log.createdAt | date:'short' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>User</th>
+        <td mat-cell *matCellDef="let log">
+          <div class="user-cell" *ngIf="log.user">
+            <div class="user-avatar">
+              <mat-icon>account_circle</mat-icon>
+            </div>
+            <div class="user-info">
+              <div class="user-name">{{ log.user.name }}</div>
+              <div class="user-email">{{ log.user.email }}</div>
+            </div>
+          </div>
+          <span *ngIf="!log.user">System</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+        <td mat-cell *matCellDef="let log">
+          <mat-chip [color]="getActionColor(log.action)">
+            {{ log.action }}
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="resource">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Resource</th>
+        <td mat-cell *matCellDef="let log">
+          <mat-chip>{{ log.resource }}</mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ipAddress">
+        <th mat-header-cell *matHeaderCellDef>IP Address</th>
+        <td mat-cell *matCellDef="let log">
+          {{ log.ipAddress || 'N/A' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="details">
+        <th mat-header-cell *matHeaderCellDef>Details</th>
+        <td mat-cell *matCellDef="let log">
+          <button mat-icon-button (click)="viewDetails(log)" matTooltip="View Details">
+            <mat-icon>info</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator
+      [length]="totalLogs"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[25, 50, 100, 200]"
+      (page)="onPageChange($event)">
+    </mat-paginator>
+  </mat-card>
+</div>
+

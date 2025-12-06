@@ -1,0 +1,130 @@
+<div class="dashboard-wrapper">
+  <!-- HEADER -->
+  <div class="dashboard-header">
+    <app-header title="DASHBOARD" subtitle="Welcome to your dashboard"></app-header>
+    <div class="header-actions">
+      <button mat-raised-button color="primary" class="download-btn" (click)="downloadReport()">
+        <mat-icon>download</mat-icon>
+        Download Reports
+      </button>
+    </div>
+  </div>
+
+  <!-- GRID & CHARTS -->
+  <div class="dashboard-grid">
+    <!-- ROW 1 - Stat Boxes -->
+    <mat-card class="stat-card">
+      <app-stat-box
+        title="12,361"
+        subtitle="Emails Sent"
+        [progress]="0.75"
+        increase="+14%"
+        icon="email">
+      </app-stat-box>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <app-stat-box
+        title="431,225"
+        subtitle="Sales Obtained"
+        [progress]="0.50"
+        increase="+21%"
+        icon="point_of_sale">
+      </app-stat-box>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <app-stat-box
+        title="32,441"
+        subtitle="New Clients"
+        [progress]="0.30"
+        increase="+5%"
+        icon="person_add">
+      </app-stat-box>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <app-stat-box
+        title="1,325,134"
+        subtitle="Traffic Received"
+        [progress]="0.80"
+        increase="+43%"
+        icon="traffic">
+      </app-stat-box>
+    </mat-card>
+
+    <!-- ROW 2 - Revenue Chart -->
+    <mat-card class="revenue-card">
+      <div class="revenue-header">
+        <div>
+          <h3>Revenue Generated</h3>
+          <div class="revenue-amount">$59,342.32</div>
+        </div>
+        <button mat-icon-button (click)="downloadReport()" matTooltip="Download Revenue Report">
+          <mat-icon>download</mat-icon>
+        </button>
+      </div>
+      <div class="chart-container">
+        <canvas baseChart
+                [data]="activeUsersData"
+                [type]="'line'"
+                [options]="lineChartOptions">
+        </canvas>
+      </div>
+    </mat-card>
+
+    <!-- ROW 2 - Recent Transactions -->
+    <mat-card class="transactions-card">
+      <div class="transactions-header">
+        <h3>Recent Transactions</h3>
+      </div>
+      <div class="transactions-list">
+        <div class="transaction-item" *ngFor="let transaction of mockTransactions">
+          <div class="transaction-info">
+            <div class="transaction-id">{{ transaction.txId }}</div>
+            <div class="transaction-user">{{ transaction.user }}</div>
+          </div>
+          <div class="transaction-date">{{ transaction.date }}</div>
+          <div class="transaction-cost">${{ transaction.cost }}</div>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- ROW 3 - Campaign Progress -->
+    <mat-card class="campaign-card">
+      <h3>Campaign</h3>
+      <div class="campaign-content">
+        <app-progress-circle [size]="125" [progress]="75"></app-progress-circle>
+        <div class="campaign-stats">
+          <div class="campaign-revenue">$48,352 revenue generated</div>
+          <div class="campaign-note">Includes extra misc expenditures and costs</div>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- ROW 3 - Sales Quantity -->
+    <mat-card class="sales-card">
+      <h3>Sales Quantity</h3>
+      <div class="chart-container">
+        <canvas baseChart
+                [data]="salesData"
+                [type]="'bar'"
+                [options]="barChartOptions">
+        </canvas>
+      </div>
+    </mat-card>
+
+    <!-- ROW 3 - Geography Chart -->
+    <mat-card class="geography-card">
+      <h3>Geography Based Traffic</h3>
+      <div class="chart-container geography-chart">
+        <svg #worldMap class="world-map" viewBox="0 0 400 200">
+          <!-- World map will be rendered by D3 -->
+        </svg>
+        <div class="map-loading" *ngIf="!mapData">
+          <mat-spinner diameter="30"></mat-spinner>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

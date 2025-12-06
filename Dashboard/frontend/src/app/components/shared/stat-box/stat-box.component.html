@@ -1,0 +1,18 @@
+<div class="stat-box">
+  <div class="stat-icon">
+    <mat-icon>{{ icon }}</mat-icon>
+  </div>
+  <div class="stat-content">
+    <div class="stat-title">{{ title }}</div>
+    <div class="stat-subtitle">{{ subtitle }}</div>
+    <div class="stat-footer">
+      <div class="stat-progress">
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="progress * 100"></div>
+        </div>
+      </div>
+      <div class="stat-increase">{{ increase }}</div>
+    </div>
+  </div>
+</div>
+

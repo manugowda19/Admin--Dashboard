@@ -1,0 +1,142 @@
+<div class="settings-container">
+  <div class="settings-header">
+    <h1>System Settings</h1>
+    <p class="subtitle">Manage system configuration and preferences</p>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <mat-card *ngIf="!isLoading">
+    <mat-tab-group [(selectedIndex)]="selectedTab">
+      <!-- General Settings -->
+      <mat-tab label="General">
+        <div class="tab-content">
+          <form [formGroup]="settingsForm" (ngSubmit)="saveSettings()">
+            <h3>Maintenance Mode</h3>
+            <div class="form-group">
+              <mat-checkbox formControlName="maintenanceMode">
+                Enable Maintenance Mode
+              </mat-checkbox>
+              <p class="form-hint">When enabled, only admins can access the system</p>
+            </div>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Maintenance Message</mat-label>
+              <textarea matInput formControlName="maintenanceMessage" rows="3" placeholder="Enter maintenance message..."></textarea>
+            </mat-form-field>
+
+            <h3>Theme Settings</h3>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Theme</mat-label>
+              <mat-select formControlName="theme">
+                <mat-option value="light">Light</mat-option>
+                <mat-option value="dark">Dark</mat-option>
+                <mat-option value="auto">Auto (System)</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <h3>Site Settings</h3>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Site Name</mat-label>
+              <input matInput formControlName="siteName">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Site URL</mat-label>
+              <input matInput formControlName="siteUrl" type="url">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Contact Email</mat-label>
+              <input matInput formControlName="contactEmail" type="email">
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" type="submit">
+              Save Settings
+            </button>
+          </form>
+        </div>
+      </mat-tab>
+
+      <!-- API Keys -->
+      <mat-tab label="API Keys">
+        <div class="tab-content">
+          <div class="api-keys-header">
+            <h3>API Keys</h3>
+            <form [formGroup]="apiKeyForm" (ngSubmit)="createApiKey()" class="api-key-form">
+              <mat-form-field appearance="outline">
+                <mat-label>Key Name</mat-label>
+                <input matInput formControlName="name" placeholder="e.g., Production API">
+              </mat-form-field>
+              <button mat-raised-button color="primary" type="submit">Create API Key</button>
+            </form>
+          </div>
+
+          <div class="api-keys-list" *ngIf="settings.apiKeys && settings.apiKeys.length > 0">
+            <mat-card *ngFor="let key of settings.apiKeys" class="api-key-item">
+              <mat-card-content>
+                <div class="key-info">
+                  <div>
+                    <strong>{{ key.name }}</strong>
+                    <div class="key-value">{{ key.key || 'N/A' }}</div>
+                    <div class="key-meta">
+                      Created: {{ key.createdAt | date:'short' }}
+                      <span *ngIf="key.lastUsed"> | Last used: {{ key.lastUsed | date:'short' }}</span>
+                    </div>
+                  </div>
+                  <button mat-icon-button color="warn" (click)="deleteApiKey(key._id)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <div *ngIf="!settings.apiKeys || settings.apiKeys.length === 0" class="no-keys">
+            <mat-icon>vpn_key</mat-icon>
+            <p>No API keys created yet</p>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Email Configuration -->
+      <mat-tab label="Email">
+        <div class="tab-content">
+          <form [formGroup]="emailConfigForm" (ngSubmit)="saveEmailConfig()">
+            <h3>SMTP Configuration</h3>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>SMTP Host</mat-label>
+              <input matInput formControlName="host" placeholder="smtp.gmail.com">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>SMTP Port</mat-label>
+              <input matInput formControlName="port" type="number">
+            </mat-form-field>
+
+            <div class="form-group">
+              <mat-checkbox formControlName="secure">Use SSL/TLS</mat-checkbox>
+            </div>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="user">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Password</mat-label>
+              <input matInput formControlName="password" type="password">
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" type="submit">
+              Save Email Configuration
+            </button>
+          </form>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</div>
+

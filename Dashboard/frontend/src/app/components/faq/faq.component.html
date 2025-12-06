@@ -1,0 +1,17 @@
+<div class="faq-container">
+  <div class="faq-header">
+    <h1>Frequently Asked Questions</h1>
+    <p class="subtitle">Find answers to common questions</p>
+  </div>
+
+  <mat-card *ngFor="let faq of faqs; let i = index" class="faq-item">
+    <mat-card-header (click)="toggleFaq(i)" class="faq-header-clickable">
+      <mat-card-title>{{ faq.question }}</mat-card-title>
+      <mat-icon>{{ faq.expanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+    </mat-card-header>
+    <mat-card-content *ngIf="faq.expanded">
+      <p>{{ faq.answer }}</p>
+    </mat-card-content>
+  </mat-card>
+</div>
+

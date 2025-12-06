@@ -1,0 +1,76 @@
+.stat-box {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  height: 100%;
+
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background: rgba(76, 175, 80, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    mat-icon {
+      color: #4caf50;
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  .stat-content {
+    flex: 1;
+    min-width: 0;
+
+    .stat-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+
+    .stat-subtitle {
+      font-size: 14px;
+      color: #757575;
+      margin-bottom: 12px;
+    }
+
+    .stat-footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .stat-progress {
+        flex: 1;
+        min-width: 0;
+
+        .progress-bar {
+          height: 6px;
+          background-color: #e0e0e0;
+          border-radius: 3px;
+          overflow: hidden;
+
+          .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50 0%, #81c784 100%);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+          }
+        }
+      }
+
+      .stat-increase {
+        font-size: 12px;
+        font-weight: 600;
+        color: #4caf50;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+

@@ -1,0 +1,74 @@
+<div class="geography-container">
+  <div class="geography-header">
+    <h1>Geography</h1>
+    <p class="subtitle">Traffic by location - World Map</p>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      <div class="map-container" *ngIf="!isLoading">
+        <div class="world-map-wrapper">
+          <svg #worldMap class="world-map" viewBox="0 0 1000 500">
+            <!-- World map will be rendered by D3 -->
+          </svg>
+        </div>
+
+        <div class="map-legend">
+          <h3>Traffic Volume</h3>
+          <div class="legend-items">
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #1b5e20;"></div>
+              <span>1M+</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #2e7d32;"></div>
+              <span>800K - 1M</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #388e3c;"></div>
+              <span>600K - 800K</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #4caf50;"></div>
+              <span>400K - 600K</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #81c784;"></div>
+              <span>200K - 400K</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #c8e6c9;"></div>
+              <span>&lt; 200K</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #e0e0e0;"></div>
+              <span>No Data</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="loading-container" *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
+        <p>Loading world map...</p>
+      </div>
+
+      <!-- Fallback: Show data table if map fails to load -->
+      <div class="data-table" *ngIf="!isLoading && geographyData.length > 0">
+        <h3>Top Countries by Traffic</h3>
+        <table mat-table [dataSource]="geographyData" class="geography-table">
+          <ng-container matColumnDef="country">
+            <th mat-header-cell *matHeaderCellDef>Country</th>
+            <td mat-cell *matCellDef="let item">{{ getCountryName(item.id) }}</td>
+          </ng-container>
+          <ng-container matColumnDef="value">
+            <th mat-header-cell *matHeaderCellDef>Traffic</th>
+            <td mat-cell *matCellDef="let item">{{ item.value | number }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="['country', 'value']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['country', 'value']"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

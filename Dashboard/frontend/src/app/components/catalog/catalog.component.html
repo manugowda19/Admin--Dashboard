@@ -1,0 +1,80 @@
+<div class="catalog-container">
+  <div class="catalog-header">
+    <h1>Catalog</h1>
+    <p class="subtitle">Recent Contacts and Activity Timeline</p>
+  </div>
+
+  <div class="catalog-grid">
+    <!-- Recent Contacts -->
+    <mat-card class="contacts-card">
+      <mat-card-header>
+        <mat-card-title>Recent Contacts</mat-card-title>
+        <button mat-icon-button class="card-action">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="loading-overlay" *ngIf="isLoading">
+          <mat-spinner diameter="40"></mat-spinner>
+        </div>
+        <div class="contacts-list" *ngIf="!isLoading">
+          <div class="contact-item" *ngFor="let contact of recentContacts">
+            <div class="contact-avatar">
+              <mat-icon>account_circle</mat-icon>
+            </div>
+            <div class="contact-info">
+              <div class="contact-name">{{ contact.name }}</div>
+              <div class="contact-role">{{ contact.role }}</div>
+              <div class="contact-email">{{ contact.email }}</div>
+            </div>
+            <div class="contact-status">
+              <mat-chip [color]="contact.isActive ? 'primary' : 'warn'">
+                {{ contact.isActive ? 'Active' : 'Inactive' }}
+              </mat-chip>
+            </div>
+            <div class="contact-actions">
+              <button mat-icon-button size="small" matTooltip="Send Email">
+                <mat-icon>email</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="no-contacts" *ngIf="recentContacts.length === 0">
+            <mat-icon>people_outline</mat-icon>
+            <p>No contacts found</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Activity Timeline -->
+    <mat-card class="activity-card">
+      <mat-card-header>
+        <mat-card-title>Recent Activity</mat-card-title>
+        <button mat-icon-button class="card-action">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="loading-overlay" *ngIf="isLoading">
+          <mat-spinner diameter="40"></mat-spinner>
+        </div>
+        <div class="activity-timeline" *ngIf="!isLoading">
+          <div class="activity-item" *ngFor="let activity of recentActivities">
+            <div class="activity-icon" [class]="'activity-' + activity.type">
+              <mat-icon>{{ activity.icon }}</mat-icon>
+            </div>
+            <div class="activity-content">
+              <div class="activity-text">{{ activity.text }}</div>
+              <div class="activity-time">{{ activity.time }}</div>
+            </div>
+          </div>
+          <div class="no-activity" *ngIf="recentActivities.length === 0">
+            <mat-icon>timeline</mat-icon>
+            <p>No recent activity</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

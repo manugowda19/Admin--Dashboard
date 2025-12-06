@@ -1,0 +1,145 @@
+.geography-container {
+  padding: 24px;
+  background-color: #f5f7fa;
+  min-height: calc(100vh - 64px);
+  width: 100%;
+  box-sizing: border-box;
+
+  .geography-header {
+    margin-bottom: 24px;
+
+    h1 {
+      font-size: 28px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0 0 8px 0;
+    }
+
+    .subtitle {
+      color: #757575;
+      font-size: 14px;
+      margin: 0;
+    }
+  }
+
+  mat-card {
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: visible;
+
+    mat-card-content {
+      padding: 24px;
+    }
+  }
+
+  .map-container {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+
+    @media (max-width: 1200px) {
+      flex-direction: column;
+    }
+
+    .world-map-wrapper {
+      flex: 1;
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      .world-map {
+        width: 100%;
+        height: auto;
+        min-height: 500px;
+        background: linear-gradient(to bottom, #e3f2fd 0%, #bbdefb 100%);
+
+        .countries {
+          .country-path {
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+              stroke-width: 2;
+              stroke: #1976d2;
+              opacity: 0.8;
+            }
+          }
+        }
+      }
+    }
+
+    .map-legend {
+      min-width: 200px;
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin: 0 0 16px 0;
+      }
+
+      .legend-items {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .legend-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+
+          .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+          }
+
+          span {
+            font-size: 14px;
+            color: #1a1a1a;
+          }
+        }
+      }
+    }
+  }
+
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 500px;
+    color: #757575;
+
+    p {
+      margin-top: 16px;
+      margin-bottom: 0;
+    }
+  }
+
+  .data-table {
+    margin-top: 24px;
+
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0 0 16px 0;
+    }
+
+    .geography-table {
+      width: 100%;
+
+      th {
+        font-weight: 600;
+        color: #1a1a1a;
+      }
+    }
+  }
+}

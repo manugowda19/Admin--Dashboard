@@ -1,0 +1,30 @@
+<div class="progress-circle-container" [style.width.px]="size" [style.height.px]="size">
+  <svg [attr.width]="size" [attr.height]="size" class="progress-svg">
+    <circle
+      cx="50%"
+      cy="50%"
+      [attr.r]="size / 2 - 10"
+      fill="none"
+      stroke="#e0e0e0"
+      [attr.stroke-width]="8"
+    />
+    <circle
+      cx="50%"
+      cy="50%"
+      [attr.r]="size / 2 - 10"
+      fill="none"
+      stroke="#4caf50"
+      [attr.stroke-width]="8"
+      [attr.stroke-dasharray]="circumference"
+      [attr.stroke-dashoffset]="offset"
+      class="progress-circle"
+      [attr.transform]="'rotate(-90 ' + (size / 2) + ' ' + (size / 2) + ')'"
+    />
+  </svg>
+  <div class="progress-content">
+    <div class="progress-value" *ngIf="value">{{ value }}</div>
+    <div class="progress-percentage" *ngIf="!value">{{ progress }}%</div>
+    <div class="progress-subtitle" *ngIf="subtitle">{{ subtitle }}</div>
+  </div>
+</div>
+
