@@ -2,7 +2,8 @@
 
 ## System Architecture
 
-![alt text](<architecture.png>)
+<img width="803" height="548" alt="System-desgin" src="https://github.com/user-attachments/assets/bea1537a-410c-4c5b-88d2-6264b26cd901" />
+
 
 ## Request Flow
 
@@ -183,4 +184,5 @@
 - Configure CDN for static assets
 - Implement logging and monitoring
 - Set up backup strategy for MongoDB
+
 
