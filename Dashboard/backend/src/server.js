@@ -20,9 +20,12 @@ const { initializeSocket } = require('./socket/socket');
 
 const app = express();
 const server = http.createServer(app);
+const FRONTEND_URL = process.env.FRONTEND_URL;
+const corsOrigin = FRONTEND_URL || (process.env.NODE_ENV !== 'production' ? true : 'http://localhost:4200');
+
 const io = socketIo(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || "http://localhost:4200",
+    origin: corsOrigin,
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -31,7 +34,7 @@ const io = socketIo(server, {
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:4200",
+  origin: corsOrigin,
   credentials: true
 }));
 app.use(compression());
@@ -78,8 +81,9 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/admin-das
 .then(() => {
   console.log('✅ MongoDB connected');
   const PORT = process.env.PORT || 3000;
-  server.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
+  const HOST = process.env.HOST || '0.0.0.0';
+  server.listen(PORT, HOST, () => {
+    console.log(`🚀 Server running on ${HOST}:${PORT}`);
   });
 })
 .catch((err) => {
