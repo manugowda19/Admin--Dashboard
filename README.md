@@ -16,6 +16,8 @@ Brief description
 - WebSocket support for real-time notifications (socket integration).
 - Landing page with hero, features grid, CTAs and a contact form.
 
+<img width="1920" height="1078" alt="Application Overview " src="https://github.com/user-attachments/assets/65e4cd8b-2c3b-4f29-90d4-831436ae2942" />
+
 ---
 
 **Architecture & Tech**
@@ -89,6 +91,10 @@ Notes & decisions
 - Icons used are inline SVGs (lucide-style) in the landing component to avoid adding a new dependency.
 - Feature cards reveal on scroll using `IntersectionObserver`. Cards are equal-height using flexbox.
 - The `app.component.scss` was updated to allow page scrolling for unauthenticated routes (replaced `height:100vh; overflow:hidden` with `min-height:100vh`).
+
+---
+
+![C72B03FD-9656-4FFB-9E12-BEC063D33C4F_1_206_a](https://github.com/user-attachments/assets/06d7b1d0-b198-473c-b05e-4d4ba9386a4a)
 
 ---
 
