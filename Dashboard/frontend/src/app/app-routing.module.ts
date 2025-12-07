@@ -18,6 +18,7 @@ import { FormComponent } from './components/form/form.component';
 import { GeographyComponent } from './components/geography/geography.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { LandingComponent } from './components/landing/landing.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -89,8 +90,8 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: { roles: ['admin', 'superadmin'] }
   },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: '**', redirectTo: '/dashboard' }
+  { path: '', component: LandingComponent },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

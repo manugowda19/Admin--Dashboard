@@ -58,6 +58,7 @@ import { FormComponent } from './components/form/form.component';
 import { GeographyComponent } from './components/geography/geography.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { LandingComponent } from './components/landing/landing.component';
 
 // Interceptors
 import { AuthInterceptor } from './interceptors/auth.interceptor';
@@ -91,6 +92,8 @@ import { SocketService } from './services/socket.service';
     GeographyComponent,
     InvoicesComponent,
     ReportsComponent
+    ,
+    LandingComponent
   ],
   imports: [
     BrowserModule,
